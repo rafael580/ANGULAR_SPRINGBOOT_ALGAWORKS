@@ -1,9 +1,12 @@
 package com.example.fullapimoney.controller;
 
 import com.example.fullapimoney.entity.Lancamento;
+import com.example.fullapimoney.repository.LancamentoRepository;
 import com.example.fullapimoney.repository.filter.LancamentoFilter;
 import com.example.fullapimoney.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,9 +22,12 @@ public class LancamentoController {
     @Autowired
     private LancamentoService lancamentoService;
 
+    @Autowired
+    private LancamentoRepository lancamentoRepository;
+
     @GetMapping
-    public ResponseEntity<List<Lancamento>> todosLancamentos(LancamentoFilter lancamentoFilter){
-        return ResponseEntity.ok().body(lancamentoService.buscarLancamentos(lancamentoFilter));
+    public Page<Lancamento> todosLancamentos(LancamentoFilter lancamentoFilter, Pageable pageable){
+        return lancamentoRepository.filtar(lancamentoFilter,pageable);
     }
 
     @GetMapping("/{id}")
@@ -35,5 +41,9 @@ public class LancamentoController {
                 .buildAndExpand(lancamento.getId()).toUri();
         return ResponseEntity.created(uri).body(lancamento);
     }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarLancanmento(@PathVariable Long id){
+        lancamentoService.deletarLancamento(id);
+        return    ResponseEntity.noContent().build();
+    }
 }

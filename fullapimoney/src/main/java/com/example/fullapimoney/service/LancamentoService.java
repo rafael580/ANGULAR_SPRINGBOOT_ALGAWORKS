@@ -8,8 +8,11 @@ import com.example.fullapimoney.repository.filter.LancamentoFilter;
 import com.example.fullapimoney.service.exception.DataBaseException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +23,7 @@ public class LancamentoService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public List<Lancamento> buscarLancamentos(LancamentoFilter lancamentoFilter){
-        return lancamentoRepository.filtar(lancamentoFilter);
-    }
+
     public Lancamento buscarUmLancamento(Long id){
         Optional<Lancamento> lancamento = lancamentoRepository.findById(id);
         Lancamento lancamento1 = lancamento.orElse(null);
@@ -35,6 +36,10 @@ public class LancamentoService {
             throw  new DataBaseException("pessoa nao encontrada");
         }
         return lancamentoRepository.save(lancamento);
+    }
+
+    public void deletarLancamento(Long id){
+        pessoaRepository.deleteById(id);
     }
 
 }
