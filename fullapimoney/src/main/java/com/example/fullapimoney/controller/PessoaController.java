@@ -46,4 +46,14 @@ public class PessoaController {
         pessoaService.deletarPessoa(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pessoa> atualizarPessoaCompleta(@PathVariable Long id,@Valid @RequestBody Pessoa pessoa){
+        return ResponseEntity.ok().body(pessoaService.autualizarPessoa(id,pessoa));
+    }
+    @PutMapping("/{id}/ativo")
+    public ResponseEntity<Void> atualizarPessoaAtivo(@PathVariable Long id,@RequestBody Boolean ativo){
+        pessoaService.atualizarAtivo(id,ativo);
+        return ResponseEntity.accepted().build();
+    }
 }
