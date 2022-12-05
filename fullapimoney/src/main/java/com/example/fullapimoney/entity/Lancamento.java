@@ -3,6 +3,7 @@ package com.example.fullapimoney.entity;
 import com.example.fullapimoney.entity.enums.TipoLancamento;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,18 +18,26 @@ public class Lancamento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private String descricao;
+    @NotNull
     @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
+    @NotNull
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
+    @NotNull
     private BigDecimal valor;
+    @NotNull
     private String obervacao;
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "categoria_codigo")
     private Categoria categoria;
+    @NotNull
     @ManyToOne
     private Pessoa pessoa;
 
